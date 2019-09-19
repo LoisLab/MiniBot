@@ -28,27 +28,21 @@ class Motors:
 
 class Motor:
     
-    FORWARD=(True,False)
-    REVERSE=(False,True)
+    FORWARD=(GPIO.HIGH,GPIO.LOW)
+    REVERSE=(GPIO.LOW,GPIO.HIGH)
     
     def __init__(self, pins):
-        self.ctrl_pin_0=pins[0]
-        self.ctrl_pin_1=pins[1]
-        self.enable_pin=pins[2]
-        GPIO.setup(self.ctrl_pin_0, GPIO.OUT)
-        GPIO.setup(self.ctrl_pin_1, GPIO.OUT)
-        GPIO.setup(self.enable_pin, GPIO.OUT)
-        GPIO.output(self.enable_pin, False)
-        #self.pwm=GPIO.PWM(self.enable_pin, 100)
-        #self.pwm.start(0)
-        #self.pwm.ChangeDutyCycle(100)
+        self.pins=pins
+        GPIO.setup(self.pins[0], GPIO.OUT)
+        GPIO.setup(self.pins[1], GPIO.OUT)
+        GPIO.setup(self.pins[2], GPIO.OUT)
 
     def set_direction(self, direction):
-        GPIO.output(self.ctrl_pin_0, direction[0])
-        GPIO.output(self.ctrl_pin_1, direction[1])
+        GPIO.output(self.pins[0], direction[0])
+        GPIO.output(self.pins[1], direction[1])
         
     def go(self):
-        GPIO.output(self.enable_pin, True)
+        GPIO.output(self.pins[2], GPIO.HIGH)
         
     def stop(self):
-        GPIO.output(self.enable_pin, False)
+        GPIO.output(self.pins[2], GPIO.LOW)
