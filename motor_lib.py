@@ -4,10 +4,10 @@ from time import sleep
 
 class Motors:
     
-    def __init__(self):
+    def __init__(self, left_pins=(3,5,7), right_pins=(11,13,15)):
         GPIO.setmode(GPIO.BOARD)
-        self.left=Motor(3,5,7)
-        self.right=Motor(11,13,15)
+        self.left=Motor(left_pins)
+        self.right=Motor(right_pins)
         
     def set_direction(self,left_dir,right_dir):
         self.left.set_direction(left_dir)
@@ -22,8 +22,7 @@ class Motors:
         self.right.stop()
 
     def cleanup(self):
-        self.left.cleanup()
-        self.right.cleanup()
+        self.stop()
         GPIO.cleanup()
 
 
@@ -32,16 +31,17 @@ class Motor:
     FORWARD=(True,False)
     REVERSE=(False,True)
     
-    def __init__(self, ctrl_pin_0, ctrl_pin_1, enable_pin):
-        self.ctrl_pin_0=ctrl_pin_0
-        self.ctrl_pin_1=ctrl_pin_1
-        self.enable_pin=enable_pin
+    def __init__(self, pins):
+        self.ctrl_pin_0=pins[0]
+        self.ctrl_pin_1=pins[1]
+        self.enable_pin=pins[2]
         GPIO.setup(self.ctrl_pin_0, GPIO.OUT)
         GPIO.setup(self.ctrl_pin_1, GPIO.OUT)
         GPIO.setup(self.enable_pin, GPIO.OUT)
-        self.pwm=GPIO.PWM(enable_pin, 100)
-        self.pwm.start(0)
-        self.pwm.ChangeDutyCycle(100)
+        GPIO.output(self.enable_pin, False)
+        #self.pwm=GPIO.PWM(self.enable_pin, 100)
+        #self.pwm.start(0)
+        #self.pwm.ChangeDutyCycle(100)
 
     def set_direction(self, direction):
         GPIO.output(self.ctrl_pin_0, direction[0])
@@ -52,6 +52,3 @@ class Motor:
         
     def stop(self):
         GPIO.output(self.enable_pin, False)
-        
-    def cleanup(self):
-        self.pwm.stop()
