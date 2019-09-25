@@ -36,6 +36,7 @@ class Motor:
         GPIO.setup(self.pins[0], GPIO.OUT)
         GPIO.setup(self.pins[1], GPIO.OUT)
         GPIO.setup(self.pins[2], GPIO.OUT)
+        GPIO.output(self.pins[2], GPIO.LOW)
 
     def set_direction(self, direction):
         GPIO.output(self.pins[0], direction[0])
