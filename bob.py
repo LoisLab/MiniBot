@@ -30,9 +30,10 @@ class Bob:
         
     def listen(self, message):
         tokens = message.split('=')
-        print(tokens)
-        if tokens[0]=='action':
+        if len(tokens)==2 and tokens[0]=='action':
             self.step(ActionSpace.actions[int(tokens[1])])
+        else:
+            raise ValueError('Unknown command: ' + message)
    
     def shutdown(self):
         self.motors.stop()
