@@ -35,7 +35,7 @@ class Bob:
             self.step(ActionSpace.actions[int(tokens[1])])
    
     def shutdown(self):
-        self.motors.shutdown()
+        self.motors.stop()
         GPIO.cleanup()
         
         

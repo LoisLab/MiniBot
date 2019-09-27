@@ -14,10 +14,13 @@ class DefaultRequestHandler(BaseHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        request = str(self.path[1:])
-        self.listener.listen(request)
-        response = '<html><body>'+request+'</body></html>'
-        self.wfile.write(response.encode('utf-8'))
+        try:
+            request = str(self.path[1:])
+            self.listener.listen(request)
+            response = '<html><body>'+request+'</body></html>'
+            self.wfile.write(response.encode('utf-8'))
+        except Exception as e:
+            self.wfile.write(str(e).encode('utf-8'))
         return
 
 class WebServer:
