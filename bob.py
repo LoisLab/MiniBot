@@ -3,14 +3,14 @@ import random
 
 class ActionSpace:
     
-    actions = [(Motor.FORWARD, Motor.REVERSE, 0.25),
-               (Motor.FORWARD, Motor.REVERSE, 0.50),
-               (Motor.REVERSE, Motor.FORWARD, 0.25),
-               (Motor.REVERSE, Motor.FORWARD, 0.50),
+    actions = [(Motor.FORWARD, Motor.REVERSE, 0.15),
+               (Motor.FORWARD, Motor.REVERSE, 0.30),
+               (Motor.REVERSE, Motor.FORWARD, 0.15),
+               (Motor.REVERSE, Motor.FORWARD, 0.30),
                (Motor.FORWARD, Motor.FORWARD, 0.25),
                (Motor.FORWARD, Motor.FORWARD, 0.50),
                (Motor.REVERSE, Motor.REVERSE, 0.25),
-               (Motor.FORWARD, Motor.REVERSE, 0.50)]
+               (Motor.REVERSE, Motor.REVERSE, 0.50)]
              
     def sample():
         return ActionSpace.actions[random.randint(1,len(ActionSpace.actions))]
