@@ -17,21 +17,25 @@ class ActionSpace:
 
 class Bob:
     
-    def __init__(self):
+    def __init__(self, speed=1):
         self.action_space = ActionSpace
         self.motors = Motors()
+        self.speed = speed
         
     def step(self, action):
         print(action)
         self.motors.set_direction(action[0],action[1])
         self.motors.go()
-        sleep(action[2])
+        sleep(action[2]*self.speed)
         self.motors.stop()
         
     def listen(self, message):
         tokens = message.split('=')
         if len(tokens)==2 and tokens[0]=='action':
             self.step(ActionSpace.actions[int(tokens[1])])
+        elif len(tokens)==2 and tokens[0]=='speed':
+            self.speed = float(tokens[1])
+            print('speed set to:', self.speed)
         else:
             raise ValueError('Unknown command: ' + message)
    
