@@ -1,3 +1,4 @@
+# LoisLab AI Robotics Design & Construction
 This repo has plans & software for the LoisLab MiniBot. The MiniBot is a tiny sensor-free rover, controlled by commands issued using http over a local-area network. Onboard the MiniBot, a RaspberryPi/Zero-W receives and executes commands by listening on port 80.
 
 For example, if a MiniBot were logged into a wifi router at local address 192.168.0.103, accessing the following URLs would cause the MiniBot to execute various actions (like moving forward or turning):
