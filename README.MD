@@ -17,4 +17,4 @@ To start the robot's web service, access to pi via ssh and use: <code>sudo pytho
 
 A companion library uses OpenCV to observe one or more MiniBots, and attempt code challenges, like playing capture the flag.
 
-Please read the included pdf, "Assembling the Mini Bot", for a guide on putting one together.
+Please read the included pdf, "Assembling the Mini Bot", for guidance on putting one together.
