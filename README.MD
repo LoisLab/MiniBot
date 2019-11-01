@@ -13,7 +13,7 @@ For example, if a MiniBot were logged into a wifi router at local address 192.16
 <code>192.168.0.103/action=7</code><br>
 <code>192.168.0.103/speed=0.40</code><br>
 
-To start the robot's web service, access to pi via ssh and use: <code>sudo python3 webbot</code>.
+To start the robot's web service, access to pi via ssh and use: <code>sudo python3 start_webbot.py</code>.
 
 A companion library uses OpenCV to observe one or more MiniBots, and attempt code challenges, like playing capture the flag.
 

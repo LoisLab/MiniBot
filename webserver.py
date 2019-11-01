@@ -1,9 +1,9 @@
+import netifaces as ni
 from http.server import *
 import socket
 import socketserver
 import threading
 from http import HTTPStatus
-
 
 class DefaultRequestHandler(BaseHTTPRequestHandler):
     
@@ -14,13 +14,14 @@ class DefaultRequestHandler(BaseHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
+        response = '<html><body>'+self.homepage()+'</body></html>'
         try:
             request = str(self.path[1:])
             self.listener.listen(request)
-            response = '<html><body>'+request+'</body></html>'
-            self.wfile.write(response.encode('utf-8'))
         except Exception as e:
-            self.wfile.write(str(e).encode('utf-8'))
+            response += '<p>' + str(e) + '</p>'
+        response += '</body></html>'
+        self.wfile.write(response.encode('utf-8'))
         return
 
 class WebServer:
@@ -47,6 +48,10 @@ class WebServer:
         # self.httpd.server_close()
         self.httpd.shutdown()
         print("Web server stopped.")
+        
+    def get_homepage(self):
+        ip = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
+        return '<a href=' + ip + '/action=0>action 0</a>'
 
 # Allows server to be stopped and restarted on the same port without getting a "Address already in use" error.
 # see: https://stackoverflow.com/questions/6380057/python-binding-socket-address-already-in-use/18858817#18858817
