@@ -14,15 +14,22 @@ class DefaultRequestHandler(BaseHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        response = '<html><body>'+self.homepage()+'</body></html>'
         try:
-            request = str(self.path[1:])
-            self.listener.listen(request)
+            error_msg = ''
+            if len(self.path) > 1:
+                request = str(self.path[1:])
+                self.listener.listen(request)
         except Exception as e:
-            response += '<p>' + str(e) + '</p>'
+            error_msg = '<p>' + str(e) + '</p>'
+        response = '<html><body>'+self.listener.get_homepage()+'</body></html>'
+        response = response.replace('%ip%',self.get_ip_address())
+        response += error_msg
         response += '</body></html>'
         self.wfile.write(response.encode('utf-8'))
         return
+    
+    def get_ip_address(self):
+        return ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
 
 class WebServer:
     
@@ -48,10 +55,6 @@ class WebServer:
         # self.httpd.server_close()
         self.httpd.shutdown()
         print("Web server stopped.")
-        
-    def get_homepage(self):
-        ip = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
-        return '<a href=' + ip + '/action=0>action 0</a>'
 
 # Allows server to be stopped and restarted on the same port without getting a "Address already in use" error.
 # see: https://stackoverflow.com/questions/6380057/python-binding-socket-address-already-in-use/18858817#18858817
